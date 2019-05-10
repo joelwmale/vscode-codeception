@@ -27,7 +27,7 @@ export class CodeceptionCommand {
     }
 
     run() {
-        return this.output;
+        return `${this.binary} ${this.output}`;
     }
 
     /**
@@ -35,19 +35,19 @@ export class CodeceptionCommand {
      *
      * @return {string}
      */
-    get output() {
+    get output(): string {
         if (this.runAll) {
-            this.lastOutput = `${this.binary} run ${this.suffix}`;
+            this.lastOutput = `run${this.suffix ? ' ' + this.suffix : ''}`;
         }
 
         if (this.runFile) {
-            this.lastOutput = `${this.binary} run ${this.parseFile} ${this.suffix}`;
+            this.lastOutput = `run ${this.parseFile}${this.suffix ? ' ' + this.suffix : ''}`;
         }
 
         return this.lastOutput;
     }
 
-    get parseFile() {
+    get parseFile(): string {
         if (window.activeTextEditor) {
             // get the currently selected file
             const { fileName } = window.activeTextEditor.document;
@@ -75,7 +75,6 @@ export class CodeceptionCommand {
      * @return {string}
      */
     get suffix(): string {
-        console.log('getting suffix');
         let suffix = this.extConfiguration.get('commandSuffix') || '';
 
         return ' ' + suffix; // Add a space before the suffix
@@ -92,39 +91,6 @@ export class CodeceptionCommand {
         }
 
         return this._normalizePath(joinPath(workspace.rootPath || '', 'vendor', 'bin', 'codecept'));
-    }
-
-    /**
-     * Get the nearest method from the cursor position.
-     *
-     * @return {string}
-     */
-    get method(): string {
-        // Return if user wants to test the full class (from CodeLens) or a path is provided
-        if (this.runClass || this.pathOfTests !== null) {
-            return '';
-        }
-
-        // If there's a method passed as arg from CodeLens, run it
-        if (this.methodToTest !== null) {
-            return this.methodToTest;
-        }
-
-        let line: number = window.activeTextEditor ? window.activeTextEditor.selection.active.line : 0;
-        let method: string = '';
-
-        while (line > 0) {
-            const lineText: string = window.activeTextEditor ? window.activeTextEditor.document.lineAt(line).text : '';
-            const match = lineText.match(/^\s*(?:public|private|protected)?\s*function\s*(\w+)\s*\(.*$/);
-            if (match) {
-                method = match[1];
-                break;
-            }
-
-            line = line - 1;
-        }
-
-        return method;
     }
 
     /**

@@ -1,8 +1,7 @@
 node_modules/
 vendor/
 .vscode-test/
-.vsix
+*.vsix
 .DS_Store
 /src/test/project-stub/.vscode
-coverage/
-.nyc_output/**
+out/

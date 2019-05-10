@@ -1,6 +1,6 @@
 <?php
 
-class SecondTest extends \Codeception\Test\Unit
+class ExampleTest extends \Codeception\Test\Unit
 {
     public function test_third()
     {
