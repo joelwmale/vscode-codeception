@@ -1,0 +1,19 @@
+{
+    "yet-phpunit.commandSuffix": null,
+    "yet-phpunit.ssh.enable": false,
+    "yet-phpunit.ssh.user": "auser",
+    "yet-phpunit.ssh.host": "ahost",
+    "yet-phpunit.ssh.port": "2222",
+    "yet-phpunit.ssh.binary": null,
+    "yet-phpunit.ssh.shellAppend": null,
+    "yet-phpunit.docker.enable": true,
+    "yet-phpunit.docker.command": "docker exec CONTAINER",
+    "yet-phpunit.docker.paths": {
+        "/Users/joel/Code/vscode-yet-another-phpunit/out/test/project-stub": "/some/remote/path",
+        "/some/other_local/path": "/some/other_remote/path"
+    },
+    "yet-phpunit.ssh.paths": {
+        "/Users/joel/Code/vscode-yet-another-phpunit/out/test/project-stub": "/some/remote/path",
+        "/some/other_local/path": "/some/other_remote/path"
+    }
+}

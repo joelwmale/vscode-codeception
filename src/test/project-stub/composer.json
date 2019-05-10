@@ -1,0 +1,15 @@
+{
+    "name": "vscode-codeception/project-stub",
+    "description": "A project stub for testing vscode-codeception",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Joel Male",
+            "email": "joel@joelmale.com"
+        }
+    ],
+    "require": {
+        "codeception/codeception": "^3.0"
+    }
+}

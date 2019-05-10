@@ -1,0 +1,114 @@
+{
+    "name": "vscode-codeception",
+    "displayName": "VSCode Codeception",
+    "description": "A simple extension to run Codeception tests without leaving VSCode.",
+    "publisher": "joelwmale",
+    "version": "1.0.0",
+    "icon": "icon.png",
+    "engines": {
+        "vscode": "^1.33.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/joewlmale/vscode-codeception.git"
+    },
+    "categories": [
+        "Debuggers"
+    ],
+    "keywords": [
+        "codecept",
+        "codeception",
+        "tests"
+    ],
+    "activationEvents": [
+        "onLanguage:php"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "vscode-codeception.run-all",
+                "title": "VSCode Codeception: Run All"
+            },
+            {
+                "command": "vscode-codeception.run-file",
+                "title": "VSCode Codeception: Run File"
+            }
+        ],
+        "keybindings": [
+            {
+                "key": "cmd+k cmd+r",
+                "command": "vscode-codeception.run-all"
+            },
+            {
+                "key": "cmd+k cmd+t",
+                "command": "vscode-codeception.run-file"
+            }
+        ],
+        "configuration": {
+            "title": "VSCode Codeception",
+            "properties": {
+                "vscode-codeception.commandSuffix": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null,
+                    "description": "This string will be appended to the codeception command, it's a great place to add flags like '--debug'"
+                },
+                "vscode-codeception.codeceptBinary": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null,
+                    "description": "Specify a custom codeception binary. Ex: 'codecept', '/usr/local/bin/codecept'"
+                },
+                "vscode-codeception.codelens": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Show CodeLens above classes and methods"
+                }
+            }
+        },
+        "problemMatchers": [
+            {
+                "name": "codecept",
+                "owner": "php",
+                "fileLocation": "absolute",
+                "pattern": [
+                    {
+                        "regexp": "^\\d+\\)\\s.*$"
+                    },
+                    {
+                        "regexp": "^(.*)$",
+                        "message": 1
+                    },
+                    {
+                        "regexp": "^(.*):(\\d+)$",
+                        "file": 1,
+                        "location": 2
+                    }
+                ]
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "yarn run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "yarn run compile && node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "@types/mocha": "^2.2.42",
+        "@types/node": "^10.12.21",
+        "php-parser": "^3.0.0-prerelease.8",
+        "tslint": "^5.12.1",
+        "typescript": "^3.3.1",
+        "vscode": "^1.1.28"
+    },
+    "dependencies": {
+        "php-parser": "^3.0.0-prerelease.8"
+    }
+}
