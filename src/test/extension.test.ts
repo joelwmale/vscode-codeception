@@ -44,7 +44,7 @@ describe('VSCode Codeception Test Suite', () => {
         await vscode.commands.executeCommand('vscode-codeception.run-all');
 
         await timeout(waitToAssertInSeconds, () => {
-            assert.equal(_getLastCommand().output, 'run  ');
+            assert.equal(_getLastCommand().output, 'run');
         });
     });
 
@@ -54,7 +54,31 @@ describe('VSCode Codeception Test Suite', () => {
         await vscode.commands.executeCommand('vscode-codeception.run-file');
 
         await timeout(waitToAssertInSeconds, () => {
-            assert.equal(_getLastCommand().output, 'run unit tests/unit/ExampleTest.php  ');
+            assert.equal(_getLastCommand().output, 'run unit tests/unit/ExampleTest.php');
+        });
+    });
+
+    it('Does update the codeception binary if configured', async () => {
+        await configuration.update('codeceptBinary', '/Users/test/codecept');
+
+        const document = await vscode.workspace.openTextDocument(pathJoin(workspaceRootPath, 'tests', 'unit', 'SampleTest.php'));
+        await vscode.window.showTextDocument(document);
+        await vscode.commands.executeCommand('vscode-codeception.run-all');
+
+        await timeout(waitToAssertInSeconds, () => {
+            assert.equal(_getLastCommand().binary, '/Users/test/codecept');
+        });
+    });
+
+    it('Does add the suffix from configuration if it is supplied', async () => {
+        await configuration.update('commandSuffix', '--debug');
+
+        const document = await vscode.workspace.openTextDocument(pathJoin(workspaceRootPath, 'tests', 'unit', 'SampleTest.php'));
+        await vscode.window.showTextDocument(document);
+        await vscode.commands.executeCommand('vscode-codeception.run-all');
+
+        await timeout(waitToAssertInSeconds, () => {
+            assert.equal(_getLastCommand().output, 'run --debug');
         });
     });
 });

@@ -3,7 +3,8 @@
     "displayName": "VSCode Codeception",
     "description": "A simple extension to run Codeception tests without leaving VSCode.",
     "publisher": "joelwmale",
-    "version": "1.0.0",
+    "version": "1.1.0",
+    "license": "MIT",
     "icon": "icon.png",
     "engines": {
         "vscode": "^1.33.0"
@@ -33,6 +34,10 @@
             {
                 "command": "vscode-codeception.run-file",
                 "title": "VSCode Codeception: Run File"
+            },
+            {
+                "command": "vscode-codeception.run-method",
+                "title": "VSCode Codeception: Run Method"
             }
         ],
         "keybindings": [
@@ -43,6 +48,10 @@
             {
                 "key": "cmd+k cmd+t",
                 "command": "vscode-codeception.run-file"
+            },
+            {
+                "key": "cmd+k cmd+e",
+                "command": "vscode-codeception.run-method"
             }
         ],
         "configuration": {
@@ -63,11 +72,6 @@
                     ],
                     "default": null,
                     "description": "Specify a custom codeception binary. Ex: 'codecept', '/usr/local/bin/codecept'"
-                },
-                "vscode-codeception.codelens": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Show CodeLens above classes and methods"
                 }
             }
         },
@@ -94,11 +98,11 @@
         ]
     },
     "scripts": {
-        "vscode:prepublish": "yarn run build",
         "build": "tsc -p ./",
         "watch": "tsc -watch -p ./",
         "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "cp -R ./src/test/project-stub ./out/test && node ./node_modules/vscode/bin/test"
+        "tests:prepare": "cp -R ./src/test/project-stub ./out/test && yarn run build",
+        "test": "yarn run tests:prepare && node ./node_modules/vscode/bin/test"
     },
     "devDependencies": {
         "@types/mocha": "^2.2.42",

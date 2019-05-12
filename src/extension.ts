@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
-// import TestCodeLensProvider from './providers/testCodeLensProvider';
-import Dispatcher from './commands/dispatcher';
+import Dispatcher from './dispatcher';
+import { CodeceptionCommand } from './commands';
 
 // Last command executed
 var lastCommand: any;
@@ -20,15 +20,27 @@ export function activate(context: vscode.ExtensionContext) {
         }));
     }));
 
-    // Register CodeLens provider
-    // context.subscriptions.push(vscode.languages.registerCodeLensProvider({
-    //     language: 'php',
-    //     scheme: 'file'
-    // }, new TestCodeLensProvider));
+    // Run all tests in the file
+    context.subscriptions.push(vscode.commands.registerCommand('vscode-codeception.run-method', async () => {
+        const codeception = new CodeceptionCommand({ runMethod: true });
+
+        codeception.cursorMethodName().then(methodName => {
+            if (methodName === 'Global Scope') {
+                vscode.window.showErrorMessage('Unable to determine cursor location. Please move your cursor and try again.');
+                return;
+            }
+
+            // Build the command
+            let command = `${codeception.run()}${methodName}${codeception.suffix}`;
+
+            // Execute
+            execute(command);
+        });
+    }));
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }
 
 /**
  * Get last command - used for testing purposes only.
@@ -47,6 +59,15 @@ export function _getLastCommand(): any {
 async function executeCommand(command: any) {
     lastCommand = command;
 
+    execute(command.run());
+}
+
+/**
+ * Run a command string.
+ *
+ * @param string command 
+ */
+async function execute(command: string) {
     if (!vscode.window.activeTextEditor) {
         return vscode.window.showErrorMessage('VSCode Codeception: open a file to run this command');
     }
@@ -58,5 +79,5 @@ async function executeCommand(command: any) {
     terminal.show();
 
     // Run the command
-    terminal.sendText(command.run(), true);
+    terminal.sendText(command, true);
 }
