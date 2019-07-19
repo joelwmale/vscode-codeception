@@ -72,11 +72,24 @@ async function execute(command: string) {
         return vscode.window.showErrorMessage('VSCode Codeception: open a file to run this command');
     }
 
+    let activeTerminal: any = null;
+    
+    if (vscode.window.activeTerminal) {
+        // Grab the current active terminal to close it later
+        activeTerminal = vscode.window.activeTerminal;
+    }
+
     // Create a new terminal
     const terminal = vscode.window.createTerminal(`VSCode Codeception`);
 
     // Show the terminal
     terminal.show();
+
+    // If we had an active terminal
+    if (activeTerminal) {
+        // Dispose it
+        activeTerminal.dispose();
+    }
 
     // Run the command
     terminal.sendText(command, true);
