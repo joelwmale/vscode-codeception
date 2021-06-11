@@ -4,6 +4,7 @@ import { CodeceptionCommand } from './commands';
 
 // Last command executed
 var lastCommand: any;
+var terminal: any;
 
 export function activate(context: vscode.ExtensionContext) {
     // Run all tests
@@ -64,7 +65,7 @@ async function executeCommand(command: any) {
 
 /**
  * Run a command string.
- *
+ *x
  * @param string command 
  */
 async function execute(command: string) {
@@ -80,8 +81,10 @@ async function execute(command: string) {
     }
 
     // Create a new terminal
-    const terminal = vscode.window.createTerminal(`VSCode Codeception`);
-
+    if (!terminal) {
+        terminal = vscode.window.createTerminal(`VSCode Codeception`);
+    }
+    
     // Show the terminal
     terminal.show();
 
