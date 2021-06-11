@@ -3,7 +3,7 @@
 
 # 🚀 VSCode Codeception
 
-Run codeception tests quickly and easily from within VSCode with easy to remember shortcuts!
+Easily run your codeception tests from VSCode's command panel or with customisable shortcuts.
 
 ## Installation
 
@@ -51,9 +51,9 @@ Open your settings (or Workspace settings), switch to JSON and put them like thi
 
 ## Roadmap: what's next?
 
-This extension is still under heavy development, and will be updated regulary.
+This extension is in active development.
 
-This is what I plan to implement:
+Current Roadmap:
 
-- Panel on left sidebar to see suites and available tests
-- Re-run failures
+- [ ] Re-run failures
+- [ ] Run tests from within docker containers
