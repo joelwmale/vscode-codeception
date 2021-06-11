@@ -3,7 +3,7 @@
     "displayName": "VSCode Codeception",
     "description": "A simple extension to run Codeception tests without leaving VSCode.",
     "publisher": "joelwmale",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "license": "MIT",
     "icon": "icon.png",
     "engines": {
