@@ -4,6 +4,7 @@ import { CodeceptionCommand } from './commands';
 
 // Last command executed
 var lastCommand: any;
+var terminal: any;
 
 export function activate(context: vscode.ExtensionContext) {
     // Run all tests
@@ -64,7 +65,7 @@ async function executeCommand(command: any) {
 
 /**
  * Run a command string.
- *
+ *x
  * @param string command 
  */
 async function execute(command: string) {
@@ -72,11 +73,26 @@ async function execute(command: string) {
         return vscode.window.showErrorMessage('VSCode Codeception: open a file to run this command');
     }
 
-    // Create a new terminal
-    const terminal = vscode.window.createTerminal(`VSCode Codeception`);
+    let activeTerminal: any = null;
+    
+    if (vscode.window.activeTerminal) {
+        // Grab the current active terminal to close it later
+        activeTerminal = vscode.window.activeTerminal;
+    }
 
+    // Create a new terminal
+    if (!terminal) {
+        terminal = vscode.window.createTerminal(`VSCode Codeception`);
+    }
+    
     // Show the terminal
     terminal.show();
+
+    // If we had an active terminal
+    if (activeTerminal) {
+        // Dispose it
+        activeTerminal.dispose();
+    }
 
     // Run the command
     terminal.sendText(command, true);
